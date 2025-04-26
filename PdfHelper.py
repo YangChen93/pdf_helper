@@ -13,6 +13,21 @@ def convertJPGtoPdf(jpg_path, outputName):
     im.save(outputName)
 
 def processPDF(pdf_path_1, pdf_path_2):
+    pdf_reader1 = PyPDF4.PdfFileReader(pdf_path_1)
+    pdf_reader2 = PyPDF4.PdfFileReader(pdf_path_2)
+    pdf_write = PyPDF4.PdfFileWriter()
+    
+    # Add pages from the first PDF
+    for page in range(pdf_reader1.getNumPages()):
+        pdf_write.addPage(pdf_reader1.getPage(page))
+    
+    # Add pages from the second PDF
+    for page in range(pdf_reader2.getNumPages()):
+        pdf_write.addPage(pdf_reader2.getPage(page))
+    
+    # Save the combined PDF
+    with open('combined.pdf', 'wb') as out:
+        pdf_write.write(out)
 
 def processJPG(jpg_path_1, jpg_path_2):
     image1 = Image.open(jpg_path_1)
